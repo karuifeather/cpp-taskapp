@@ -42,6 +42,8 @@ Thumbs.db
 # IDE and editor files
 .idea/
 .vscode/*
+
+# Keep VS Code settings and extensions for project
 !.vscode/extensions.json
 !.vscode/settings.json
 
