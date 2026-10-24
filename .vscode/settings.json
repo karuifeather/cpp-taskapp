@@ -1,0 +1,18 @@
+{
+  // Use the repository's Prettier configuration
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.requireConfig": true,
+
+  // Format the entire file whenever it is saved
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+
+  // Automatically save when switching tabs/files
+  // or moving focus away from the editor
+  "files.autoSave": "onFocusChange",
+
+  // Maintain consistent file hygiene
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true
+}

@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+@import './theme.css';
+
+@layer base {
+  body {
+    @apply bg-page text-ink antialiased;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+
+  a {
+    @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand;
+  }
+}
