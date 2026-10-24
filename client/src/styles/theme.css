@@ -1,0 +1,15 @@
+/*
+ * CENTRAL COLOR THEME — change ONLY these values when palette changes are needed.
+ * Tailwind v4 maps these CSS theme tokens to classes such as bg-brand,
+ * hover:bg-brand-hover, bg-page, bg-panel, and text-ink.
+ */
+@theme {
+  --color-brand: #334155;
+  --color-brand-hover: #1e293b;
+  --color-brand-soft: #f1f5f9;
+  --color-page: #f8fafc;
+  --color-panel: #ffffff;
+  --color-ink: #0f172a;
+  --color-muted: #475569;
+  --color-line: #cbd5e1;
+}
