@@ -2,7 +2,8 @@
 
 A full-stack task management app that helps users organize everyday activities, track time spent working, and measure progress through a simple points system.
 
-> **Designed and Developed by:** Suwaiba Mahammad, Aashaya Aryal, Iman Zahid
+**Designed and Developed by:** Suwaiba Mahammad, Aashaya Aryal, Iman Zahid
+
 > **Status:** Planning and initial development
 > **Name:** `cpp-taskapp` is the internal project name; the public-facing name is not decided yet.
 
