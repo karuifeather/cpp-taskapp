@@ -164,24 +164,17 @@ The project will include these development commands:
 - API responses use JSON and appropriate HTTP status codes.
 - Users can only modify their own selected tasks.
 
-## Project Structure
-
-The planned repository layout follows a small client/server structure with planning documents kept separately:
-
-```text
-cpp-taskapp/
-├── README.md
-├── client/                          # React frontend (to be implemented)
-├── server/                          # Express API (to be implemented)
-├── db/                              # PostgreSQL schema and seed scripts (to be implemented)
-└── planning/
-    ├── user_stories.md
-    ├── wireframes.md
-    └── entity_relationship_diagram.md
-```
-
 ## Planning Documents
 
 - [User Stories](planning/user_stories.md) — the main user journeys and expected behavior.
 - [Wireframes](planning/wireframes.md) — planned screens and interface designs.
 - [Entity Relationship Diagram](planning/entity_relationship_diagram.md) — database entities and relationships.
+
+## Development
+
+For installation, database setup, local development, builds,
+formatting, and the repository layout, see the
+[Development Guide](DEVELOPMENT.md).
+
+For branch conventions and pull requests, see
+[Contributing](CONTRIBUTING.md).
