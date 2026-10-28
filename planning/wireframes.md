@@ -17,16 +17,16 @@ The wireframes for the initial release are being designed. This document records
 
 A list of predefined tasks with category filtering and an Add action on each task.
 
-_Design image to be added._
+![Image of choose quests page](planning/Quest Master Choose Quests.png)
 
 ## Wireframe 2: My Tasks
 
 A personal daily task list with not-started, running, and completed states.
 
-_Design image to be added._
+![Image of daily tasks](planning/Quest Master Parchment Dashboard.png)
 
 ## Wireframe 3: Task Timer
 
 An active task view with a large elapsed-time display and Stop action.
 
-_Design image to be added._
+![image of task timer](planning/Quest Master Timer.png)
