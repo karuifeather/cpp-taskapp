@@ -10,8 +10,8 @@ import userTaskRoutes from './routes/userTasks.js';
 
 export const app = express();
 
-// Log requests in development mode
-if (process.env.NODE_ENV !== 'production') {
+// Log requests outside production mode.
+if (env.mode !== 'production') {
   app.use((req, res, next) => {
     const start = Date.now();
 
