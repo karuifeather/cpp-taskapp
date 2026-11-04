@@ -9,23 +9,26 @@ const links = [
   { to: '/signup', label: 'Sign Up' },
 ];
 
+// Show "QuestMaster" from the config as "Quest Master" in the logo
+const logoText = APP_NAME.replace(/([a-z])([A-Z])/g, '$1 $2');
+
 export default function PageShell({ children }) {
   return (
     <div className="min-h-screen">
-      <header className="border-b border-line bg-panel">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-5 py-4">
-          <Link to="/" className="text-lg font-bold text-ink">
-            {APP_NAME}
+      <header className="bg-bar shadow-lg">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6">
+          <Link to="/" className="font-logo text-3xl text-bar-text sm:text-5xl">
+            {logoText}
           </Link>
-          <nav aria-label="Primary navigation" className="flex flex-wrap gap-2">
+          <nav aria-label="Primary navigation" className="flex flex-wrap gap-x-6 gap-y-2">
             {links.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 end={link.end}
                 className={({ isActive }) =>
-                  `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive ? 'bg-brand text-white' : 'text-muted hover:bg-brand-soft'
+                  `text-lg text-bar-text decoration-2 underline-offset-8 hover:underline sm:text-2xl ${
+                    isActive ? 'underline' : ''
                   }`
                 }
               >
@@ -35,7 +38,7 @@ export default function PageShell({ children }) {
           </nav>
         </div>
       </header>
-      <main className="mx-auto max-w-5xl px-5 py-10">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">{children}</main>
     </div>
   );
 }

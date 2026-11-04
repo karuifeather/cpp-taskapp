@@ -2,14 +2,21 @@
  * CENTRAL COLOR THEME — change ONLY these values when palette changes are needed.
  * Tailwind v4 maps these CSS theme tokens to classes such as bg-brand,
  * hover:bg-brand-hover, bg-page, bg-panel, and text-ink.
+ * Colors and fonts follow the QuestMaster wireframes in planning/.
  */
 @theme {
-  --color-brand: #334155;
-  --color-brand-hover: #1e293b;
-  --color-brand-soft: #f1f5f9;
-  --color-page: #f8fafc;
-  --color-panel: #ffffff;
-  --color-ink: #0f172a;
-  --color-muted: #475569;
-  --color-line: #cbd5e1;
+  --color-brand: #3b2a1e;
+  --color-brand-hover: #24180f;
+  --color-brand-soft: #e7d3a8;
+  --color-page: #5a3b26;
+  --color-panel: #f1e2c0;
+  --color-ink: #1b120c;
+  --color-muted: #3d2a1c;
+  --color-line: #b89a6e;
+  --color-bar: #6b4c3b;
+  --color-bar-text: #1b120c;
+
+  --font-logo: 'UnifrakturMaguntia', Georgia, serif;
+  --font-display: 'Cinzel Decorative', Georgia, serif;
+  --font-body: 'Crimson Pro', Georgia, serif;
 }

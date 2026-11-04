@@ -1,10 +1,12 @@
 export default function PlannedPage({ title, description, children }) {
   return (
-    <section className="rounded-xl border border-line bg-panel p-6 shadow-sm">
-      <p className="mb-2 text-xs font-semibold tracking-widest text-muted uppercase">
+    <section className="parchment px-4 py-3">
+      <p className="mb-2 text-sm font-semibold tracking-widest text-muted uppercase">
         Development placeholder
       </p>
-      <h1 className="mb-3 text-2xl font-bold text-ink">{title}</h1>
+      <h1 className="title-shadow mb-3 font-display text-3xl font-bold break-words text-ink sm:text-5xl">
+        {title}
+      </h1>
       <p className="max-w-2xl text-muted">{description}</p>
       {children && <div className="mt-5">{children}</div>}
     </section>

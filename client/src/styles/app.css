@@ -3,11 +3,30 @@
 
 @layer base {
   body {
-    @apply bg-page text-ink antialiased;
-    font-family: ui-sans-serif, system-ui, sans-serif;
+    @apply bg-page font-body text-xl text-ink antialiased;
+    background-image: url('../assets/wood-background.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
   }
 
   a {
     @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand;
+  }
+}
+
+@layer components {
+  /*
+   * Torn parchment card. border-image keeps the burnt edges of the image at
+   * their real size and only stretches the middle, so any card size works.
+   */
+  .parchment {
+    border: 40px solid transparent;
+    border-image: url('../assets/parchment.webp') 70 fill / 40px stretch;
+    filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.5));
+  }
+
+  .title-shadow {
+    text-shadow: 1px 2px 0 rgb(0 0 0 / 0.2);
   }
 }
