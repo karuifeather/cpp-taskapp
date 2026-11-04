@@ -23,7 +23,7 @@ This unit, be sure to complete all tasks listed below. To complete a task, place
 
 Aashaya Aryal: Planning went realy well. Also, thanks to Iman for creating a formal captone document file for the plans we discussed and more. That really speed up the creation of this repo.
 
-Iman Zahid:
+Iman Zahid: We picked an idea we all liked and turned our meeting notes into one clear plan document. That gave everyone the same picture of the app. Aashaya also set up the repo very well, so we have a strong base to build on.
 
 Suwaiba Mahammad: We were able to come up with an idea pretty quickly. We also went through a bunch of iterations to get the idea to a somewhat workable place
 
@@ -31,7 +31,7 @@ Suwaiba Mahammad: We were able to come up with an idea pretty quickly. We also w
 
 Aashaya Aryal: As Suwaiba mentioned, nobody showed in that week's class and as a result we were behind. Again, thanks to Iman for being more active in this project and bring the group to (somewhat) life. I was very close to giving up and doing my own thing if I had not seen those Slack messages as I thought people quit as nobody was on that class.
 
-Iman Zahid:
+Iman Zahid: I agree with both Aashaya and Suwaiba. It was also hard to agree on scope, because we had many fun ideas, like the artwork and leaderboard, and had to save them for later.
 
 Suwaiba Mahammad: Half of the team didn't show up for the week 5 class so we were a bit behind. We also are not able to contact our 4th member whcihc is unfortunate. We had a hard time agreeing on scope.
 
@@ -39,6 +39,6 @@ Suwaiba Mahammad: Half of the team didn't show up for the week 5 class so we wer
 
 Aashaya Aryal: We should be fine. The repo is setup for development; if everyone chips in to do their part, product deployment shouldn't be too far from us.
 
-Iman Zahid:
+Iman Zahid: I think we are doing pretty well. I don’t think we need extra support right now, but we will ask if anything comes up.
 
 Suwaiba Mahammad: We are okay for the most part. We will probably need support on scope and feasability.
