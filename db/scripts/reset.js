@@ -1,18 +1,22 @@
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'node:url';
 import { withDatabase } from '../src/connection.js';
 import { migrate } from './migrate.js';
 import { seed } from './seed.js';
 
-if (process.env.NODE_ENV === 'production') {
-  throw new Error('Database reset is disabled in production.');
+dotenv.config({ path: fileURLToPath(new URL('../../.env', import.meta.url)) });
+
+const isProduction = process.env.NODE_ENV === 'production';
+if (isProduction || process.env.ALLOW_DB_RESET !== 'true') {
+  throw new Error(
+    isProduction
+      ? 'Database reset is disabled in production.'
+      : 'Set ALLOW_DB_RESET=true in your local .env to allow a destructive reset.',
+  );
 }
 
 // A deliberate opt-in is required because reset deletes ALL users and their data.
-// Load the root .env before checking its value in the connection helper below.
 await withDatabase(async (client) => {
-  if (process.env.ALLOW_DB_RESET !== 'true' || process.env.NODE_ENV === 'production') {
-    throw new Error('Set ALLOW_DB_RESET=true in your local .env to allow a destructive reset.');
-  }
-
   await client.query('BEGIN');
   try {
     await client.query('DROP TABLE IF EXISTS user_tasks, tasks, categories, users CASCADE');
