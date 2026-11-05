@@ -5,7 +5,7 @@ A full-stack task management app that helps users organize everyday activities, 
 **Designed and Developed by:** Suwaiba Mahammad, Aashaya Aryal, Iman Zahid
 
 > **Status:** Planning and initial development
-> **Name:** `cpp-taskapp` is the internal project name; the public-facing name is not decided yet.
+> **Name:** `cpp-taskapp` is the internal project name; the public-facing name is going to be "QuestMaster"
 
 ## About
 
