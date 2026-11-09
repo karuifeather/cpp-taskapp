@@ -27,9 +27,14 @@ cp .env.example .env
 Edit the root `.env` as needed:
 
 - `APP_NAME` sets the display name for the frontend and backend.
+- `NODE_ENV` selects the runtime mode (default `development`).
 - `DATABASE_URL` points to the PostgreSQL instance you want to use.
+- `DATABASE_SSL=true` enables SSL for the PostgreSQL connection when required by
+  the database provider.
 - `PORT` sets the backend port (default `4000`).
 - `CLIENT_ORIGIN` should match the frontend URL when using cross-origin API calls.
+- `ALLOW_DB_RESET=true` opts into the destructive database reset command. Keep
+  this enabled only for disposable local development databases.
 
 Do not commit `.env` or real credentials. Commit only safe examples in `.env.example`.
 
