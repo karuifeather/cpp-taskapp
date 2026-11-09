@@ -27,7 +27,14 @@ The app focuses on three things:
 
 ## Features
 
-The following describes the **planned initial release**, not already-completed functionality.
+Sections marked ✅ are done. The rest describe the **planned initial release**.
+
+### ✅ QuestMaster theme
+
+- Wood background, torn parchment cards, and a brown top bar that match the wireframes.
+- Medieval style QuestMaster logo.
+
+![QuestMaster theme](planning/quest-master-theme.gif)
 
 ### Accounts and profiles
 
