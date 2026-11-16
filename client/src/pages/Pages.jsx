@@ -1,5 +1,8 @@
 import { useParams } from 'react-router-dom';
 import PlannedPage from '../components/PlannedPage.jsx';
+import LoginPage from './LoginPage.jsx';
+
+export { LoginPage };
 
 export function MyTasksPage() {
   return (
@@ -34,15 +37,6 @@ export function TimerPage() {
 export function ProfilePage() {
   return (
     <PlannedPage title="Profile" description="Account details and accumulated points go here." />
-  );
-}
-
-export function LoginPage() {
-  return (
-    <PlannedPage
-      title="Log In"
-      description="The account login form will be implemented in Area 2."
-    />
   );
 }
 
