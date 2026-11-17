@@ -33,38 +33,44 @@ router.post('/signup', async (req, res) => {
 });
 
 // POST /api/auth/login
+// POST /api/auth/login
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [
-    (email || '').toLowerCase(),
-  ]);
-  const user = rows[0];
-  if (!user || !(await bcrypt.compare(password || '', user.password_hash))) {
-    return res.status(401).json({ error: 'Invalid email or password' });
+  try {
+    const { email, password } = req.body;
+    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [
+      (email || '').toLowerCase(),
+    ]);
+    const user = rows[0];
+    if (!user || !(await bcrypt.compare(password || '', user.password_hash))) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    req.session.userId = user.id;
+    res.json({
+      user: {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Something went wrong' });
   }
-  req.session.userId = user.id;
-  res.json({
-    user: {
-      id: user.id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-    },
-  });
-});
-
-// POST /api/auth/logout
-router.post('/logout', (req, res) => {
-  req.session.destroy(() => res.status(204).end());
 });
 
 // GET /api/auth/me
 router.get('/me', requireLogin, async (req, res) => {
-  const { rows } = await pool.query(
-    'SELECT id, first_name, last_name, email FROM users WHERE id = $1',
-    [req.session.userId],
-  );
-  res.json({ user: rows[0] });
+  try {
+    const { rows } = await pool.query(
+      'SELECT id, first_name, last_name, email FROM users WHERE id = $1',
+      [req.session.userId],
+    );
+    res.json({ user: rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
 });
 
 export default router;
