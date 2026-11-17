@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import session from 'express-session';
 import { env } from './config/env.js';
 import { pool } from './db/pool.js';
 import authRoutes from './routes/auth.js';
@@ -23,10 +24,16 @@ if (env.mode !== 'production') {
   });
 }
 
-// Local cross-origin development is handled by the Vite /api proxy. This also
-// permits a separately-hosted frontend later, if CLIENT_ORIGIN is configured.
 app.use(cors({ origin: env.clientOrigin, credentials: true }));
 app.use(express.json({ limit: '100kb' }));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'dev-secret',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', appName: env.appName });
