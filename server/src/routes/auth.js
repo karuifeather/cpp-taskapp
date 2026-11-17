@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
-import pool from '../db.js';
+import { pool } from '../db/pool.js';
 
 const router = Router();
 
@@ -21,7 +21,7 @@ router.post('/signup', async (req, res) => {
     const { rows } = await pool.query(
       `INSERT INTO users (first_name, last_name, email, password_hash)
        VALUES ($1, $2, $3, $4) RETURNING id, first_name, last_name, email`,
-      [firstName, lastName, email.toLowerCase(), hash]
+      [firstName, lastName, email.toLowerCase(), hash],
     );
     req.session.userId = rows[0].id;
     res.status(201).json({ user: rows[0] });
@@ -43,7 +43,14 @@ router.post('/login', async (req, res) => {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
   req.session.userId = user.id;
-  res.json({ user: { id: user.id, first_name: user.first_name, last_name: user.last_name, email: user.email } });
+  res.json({
+    user: {
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+    },
+  });
 });
 
 // POST /api/auth/logout
@@ -55,7 +62,7 @@ router.post('/logout', (req, res) => {
 router.get('/me', requireLogin, async (req, res) => {
   const { rows } = await pool.query(
     'SELECT id, first_name, last_name, email FROM users WHERE id = $1',
-    [req.session.userId]
+    [req.session.userId],
   );
   res.json({ user: rows[0] });
 });
