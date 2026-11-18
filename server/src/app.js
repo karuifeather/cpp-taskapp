@@ -7,6 +7,7 @@ import { sessionMiddleware } from './config/session.js';
 import { pool } from './db/pool.js';
 import authRoutes from './routes/auth.js';
 import categoriesRoutes from './routes/categories.js';
+import leaderboardRoutes from './routes/leaderboard.js';
 import profileRoutes from './routes/profile.js';
 import tasksRoutes from './routes/tasks.js';
 import userTaskRoutes from './routes/userTasks.js';
@@ -52,6 +53,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/tasks', tasksRoutes);
 app.use('/api/user-tasks', userTaskRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
 
 app.use('/api', (_req, res) => res.status(404).json({ error: 'API route not found' }));
 

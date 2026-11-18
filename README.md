@@ -155,6 +155,12 @@ The backend uses Express.js and exposes RESTful endpoints under `/api`. PostgreS
 | `PATCH` | `/api/user-tasks/:userTaskId/start` | Start a task by recording its start timestamp             |
 | `PATCH` | `/api/user-tasks/:userTaskId/stop`  | Stop a task, record its completion time, and award points |
 
+### Leaderboard
+
+| Method | Route              | Purpose                                                 |
+| ------ | ------------------ | ------------------------------------------------------- |
+| `GET`  | `/api/leaderboard` | Top users by total points, plus the current user's rank |
+
 ### Database & Deployment
 
 The project will include these development commands:
