@@ -7,7 +7,7 @@ import SignupPage from './Signup.jsx';
 import TaskCatalogPage from './TaskCatalogPage.jsx';
 import ProfilePage from './ProfilePage.jsx';
 
-export { LeaderboardPage, LoginPage, SignupPage, MyTasksPage };
+export { LeaderboardPage, LoginPage, SignupPage, MyTasksPage, ProfilePage };
 
 // /tasks and /tasks/:category both use the Task Catalog page.
 export { TaskCatalogPage as TasksPage, TaskCatalogPage as CategoryPage };

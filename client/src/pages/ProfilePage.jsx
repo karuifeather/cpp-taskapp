@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { apiFetch } from '../lib/api.js';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -14,20 +14,43 @@ const labelClass = 'font-display text-sm font-bold tracking-wider text-muted upp
 const inputClass =
   'w-full rounded border-2 border-ink bg-panel px-3 py-1 text-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand';
 
+function getTodayPoints(completedTasks = []) {
+  const today = new Date().toDateString();
+  return completedTasks
+    .filter((task) => task.completed_at && new Date(task.completed_at).toDateString() === today)
+    .reduce((sum, task) => sum + (task.points_earned || 0), 0);
+}
+
 export default function ProfilePage() {
-  const { user, setUser, loading } = useAuth();
+  const { user, loading } = useAuth();
+  const [profile, setProfile] = useState(null);
+  const [loadError, setLoadError] = useState('');
+
+  useEffect(() => {
+    if (!user) return;
+    apiFetch('/profile')
+      .then(setProfile)
+      .catch((err) => setLoadError(err.message || 'Could not load your profile.'));
+  }, [user?.id]);
 
   if (loading) return null;
   if (!user) return <Navigate to="/login" replace />;
+  if (loadError)
+    return (
+      <p role="alert" className="text-center font-semibold">
+        {loadError}
+      </p>
+    );
+  if (!profile) return <p className="text-center text-muted">Loading profile...</p>;
 
-  return <ProfileCard user={user} setUser={setUser} />;
+  return <ProfileCard profile={profile} setProfile={setProfile} />;
 }
 
-function ProfileCard({ user, setUser }) {
+function ProfileCard({ profile, setProfile }) {
+  const { user } = profile;
   const [editing, setEditing] = useState(false);
   const [firstName, setFirstName] = useState(user.first_name);
   const [lastName, setLastName] = useState(user.last_name);
-  const [email, setEmail] = useState(user.email);
   const [error, setError] = useState('');
   const [saved, setSaved] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,7 +58,6 @@ function ProfileCard({ user, setUser }) {
   function startEditing() {
     setFirstName(user.first_name);
     setLastName(user.last_name);
-    setEmail(user.email);
     setError('');
     setSaved(false);
     setEditing(true);
@@ -59,7 +81,8 @@ function ProfileCard({ user, setUser }) {
           last_name: lastName.trim(),
         }),
       });
-      setUser(data.user);
+
+      setProfile((prev) => ({ ...prev, user: data.user }));
       setEditing(false);
       setSaved(true);
     } catch (err) {
@@ -152,6 +175,16 @@ function ProfileCard({ user, setUser }) {
               <div className="py-3">
                 <dt className={labelClass}>Email Address</dt>
                 <dd className="text-2xl font-semibold">{user.email}</dd>
+              </div>
+              <div className="py-3">
+                <dt className={labelClass}>Today's Points</dt>
+                <dd className="text-2xl font-semibold">
+                  {getTodayPoints(profile.completed_tasks)}
+                </dd>
+              </div>
+              <div className="py-3">
+                <dt className={labelClass}>Total Points</dt>
+                <dd className="text-2xl font-semibold">{profile.total_points}</dd>
               </div>
             </dl>
 
