@@ -37,6 +37,72 @@
     z-index: -1;
   }
 
+  /* Box border with round bites taken out of each corner (Scoreboard boxes). */
+  .notched-frame {
+    mask:
+      radial-gradient(circle at 0 0, transparent 10px, #000 10.5px) 0 0 / 51% 51% no-repeat,
+      radial-gradient(circle at 100% 0, transparent 10px, #000 10.5px) 100% 0 / 51% 51% no-repeat,
+      radial-gradient(circle at 0 100%, transparent 10px, #000 10.5px) 0 100% / 51% 51% no-repeat,
+      radial-gradient(circle at 100% 100%, transparent 10px, #000 10.5px) 100% 100% / 51% 51%
+        no-repeat;
+  }
+
+  /* Scrollbar for the quest list: brown thumb, parchment track, small arrows. */
+  .quest-scroll {
+    scrollbar-gutter: stable;
+  }
+
+  .quest-scroll::-webkit-scrollbar {
+    width: 14px;
+  }
+
+  .quest-scroll::-webkit-scrollbar-track {
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: rgb(241 226 192 / 0.7);
+  }
+
+  .quest-scroll::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background: var(--color-brand) padding-box;
+  }
+
+  .quest-scroll::-webkit-scrollbar-button:single-button {
+    display: block;
+    height: 16px;
+    background: center / 9px no-repeat;
+  }
+
+  .quest-scroll::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 6'%3E%3Cpath d='M4 0l4 6H0z' fill='%231b120c'/%3E%3C/svg%3E");
+  }
+
+  .quest-scroll::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 6'%3E%3Cpath d='M0 0h8L4 6z' fill='%231b120c'/%3E%3C/svg%3E");
+  }
+
+  /*
+   * Wide screens: leave room at the top for the column titles, and hide the
+   * rows as they scroll under them. The right strip stays visible so the
+   * scrollbar still starts up by the titles.
+   */
+  @media (width >= 80rem) {
+    .quest-scroll {
+      padding-top: 2.75rem;
+      mask:
+        linear-gradient(#000 0 0) right / 22px 100% no-repeat,
+        linear-gradient(transparent 2.25rem, #000 2.75rem);
+    }
+  }
+
+  /* Firefox has no webkit scrollbar styles, so just color it there. */
+  @supports not selector(::-webkit-scrollbar) {
+    .quest-scroll {
+      scrollbar-color: var(--color-brand) rgb(241 226 192 / 0.7);
+    }
+  }
+
   .title-shadow {
     text-shadow: 1px 2px 0 rgb(0 0 0 / 0.2);
   }
