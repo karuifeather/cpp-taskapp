@@ -1,5 +1,9 @@
 import { useParams } from 'react-router-dom';
 import PlannedPage from '../components/PlannedPage.jsx';
+import LoginPage from './LoginPage.jsx';
+import SignupPage from './Signup.jsx';
+
+export { LoginPage, SignupPage };
 
 export function MyTasksPage() {
   return (
@@ -34,24 +38,6 @@ export function TimerPage() {
 export function ProfilePage() {
   return (
     <PlannedPage title="Profile" description="Account details and accumulated points go here." />
-  );
-}
-
-export function LoginPage() {
-  return (
-    <PlannedPage
-      title="Log In"
-      description="The account login form will be implemented in Area 2."
-    />
-  );
-}
-
-export function SignupPage() {
-  return (
-    <PlannedPage
-      title="Sign Up"
-      description="The account creation form will be implemented in Area 2."
-    />
   );
 }
 
