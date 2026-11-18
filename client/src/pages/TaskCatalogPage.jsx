@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { getCategories, getTasks } from '../lib/catalog.js';
+import { useAuth } from '../context/AuthContext.jsx';
+import { addTask, getCategories, getTasks, removeTask } from '../lib/catalog.js';
 
 // Plaque colors come from the difficulty tokens in styles/theme.css.
 const difficultyFill = {
@@ -26,6 +27,48 @@ const categoryLinkClass =
 const pageButtonClass =
   'rounded bg-brand px-4 py-1 text-lg text-panel hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-40';
 
+// Round icon button: a plus to add, a check after it was added.
+// Pressing the check again removes the quest from My Tasks.
+// Same height, frame and shadow as the difficulty plaque, so the two line up.
+const iconCircleClass =
+  'grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-ink bg-brand text-panel shadow-[inset_0_0_0_2px_rgb(241_226_192/0.25),0_2px_0_var(--color-ink)]';
+
+const pressableClass = `${iconCircleClass} cursor-pointer transition active:translate-y-0.5 active:shadow-none disabled:cursor-wait disabled:opacity-50`;
+
+const addButtonClass = `${pressableClass} hover:bg-brand-hover`;
+
+// Turns tan on hover so it is clear that pressing it will remove the quest.
+const removeButtonClass = `${pressableClass} hover:bg-line hover:text-ink`;
+
+// Drawn on a 12 x 12 grid with whole numbers, so the plus sits exactly in the middle.
+function PlusIcon() {
+  return (
+    <svg viewBox="0 0 12 12" className="h-3 w-3" fill="currentColor" aria-hidden="true">
+      <rect x="5" y="1" width="2" height="10" rx="1" />
+      <rect x="1" y="5" width="10" height="2" rx="1" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      viewBox="0 0 12 12"
+      className="h-3 w-3"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M2 6.5l2.5 2.5L10 3.5" />
+    </svg>
+  );
+}
+
+const noticeLinkClass = 'font-semibold underline decoration-2 underline-offset-4';
+
 const LEVELS = ['easy', 'medium', 'hard'];
 
 const levelButtonClass =
@@ -44,6 +87,44 @@ export default function TaskCatalogPage() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const { user } = useAuth();
+  // Add state per task id: 'adding' or 'removing' while a request runs, 'added' after an add worked.
+  const [addState, setAddState] = useState({});
+  // The user task id the server gave back for each added task id, needed to remove it again.
+  const [userTaskIds, setUserTaskIds] = useState({});
+  // Message shown above the list after an add or remove:
+  // { type: 'added' | 'removed' | 'login' | 'error', text? }
+  const [notice, setNotice] = useState(null);
+
+  async function handleAdd(task) {
+    if (!user) {
+      setNotice({ type: 'login' });
+      return;
+    }
+    setAddState((prev) => ({ ...prev, [task.id]: 'adding' }));
+    try {
+      const userTask = await addTask(task.id);
+      setUserTaskIds((prev) => ({ ...prev, [task.id]: userTask.id }));
+      setAddState((prev) => ({ ...prev, [task.id]: 'added' }));
+      setNotice({ type: 'added', text: task.title });
+    } catch (err) {
+      setAddState((prev) => ({ ...prev, [task.id]: undefined }));
+      setNotice(err.status === 401 ? { type: 'login' } : { type: 'error', text: err.message });
+    }
+  }
+
+  async function handleRemove(task) {
+    setAddState((prev) => ({ ...prev, [task.id]: 'removing' }));
+    try {
+      await removeTask(userTaskIds[task.id]);
+      setAddState((prev) => ({ ...prev, [task.id]: undefined }));
+      setUserTaskIds((prev) => ({ ...prev, [task.id]: undefined }));
+      setNotice({ type: 'removed', text: task.title });
+    } catch (err) {
+      setAddState((prev) => ({ ...prev, [task.id]: 'added' }));
+      setNotice(err.status === 401 ? { type: 'login' } : { type: 'error', text: err.message });
+    }
+  }
 
   useEffect(() => {
     Promise.all([getCategories(), getTasks()])
@@ -164,6 +245,36 @@ export default function TaskCatalogPage() {
           </p>
         )}
 
+        {/* Message after pressing Add or Remove. aria-live so screen readers hear it. */}
+        <div aria-live="polite" className="text-center text-lg">
+          {notice?.type === 'added' && (
+            <p className="mb-3 rounded border border-line bg-brand-soft px-3 py-1">
+              Added "{notice.text}" to today.{' '}
+              <Link to="/" className={noticeLinkClass}>
+                View My Tasks
+              </Link>
+            </p>
+          )}
+          {notice?.type === 'removed' && (
+            <p className="mb-3 rounded border border-line bg-brand-soft px-3 py-1">
+              Removed "{notice.text}" from today.
+            </p>
+          )}
+          {notice?.type === 'login' && (
+            <p className="mb-3 rounded border border-line bg-brand-soft px-3 py-1">
+              Please log in to add quests to My Tasks.{' '}
+              <Link to="/login" className={noticeLinkClass}>
+                Log in
+              </Link>
+            </p>
+          )}
+          {notice?.type === 'error' && (
+            <p role="alert" className="mb-3 rounded border border-hard px-3 py-1 font-semibold">
+              Something went wrong: {notice.text}
+            </p>
+          )}
+        </div>
+
         {/* Empty state fills the same space as the list, so the card keeps its size */}
         {!loading && !error && shownTasks.length === 0 && (
           <div className="flex min-h-[30rem] flex-col items-center gap-1 pt-6 text-center">
@@ -189,7 +300,32 @@ export default function TaskCatalogPage() {
                 <p className="text-2xl font-semibold">{task.title}</p>
                 {!category && <p className="text-lg text-muted">{task.category}</p>}
               </div>
-              <DifficultyPlaque difficulty={task.difficulty} />
+              <div className="flex shrink-0 items-center gap-3">
+                <DifficultyPlaque difficulty={task.difficulty} />
+                {addState[task.id] === 'added' || addState[task.id] === 'removing' ? (
+                  <button
+                    type="button"
+                    className={removeButtonClass}
+                    onClick={() => handleRemove(task)}
+                    disabled={addState[task.id] === 'removing'}
+                    aria-label={`Remove ${task.title} from My Tasks`}
+                    title="Added. Press to remove"
+                  >
+                    <CheckIcon />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className={addButtonClass}
+                    onClick={() => handleAdd(task)}
+                    disabled={addState[task.id] === 'adding'}
+                    aria-label={`Add ${task.title} to My Tasks`}
+                    title="Add to My Tasks"
+                  >
+                    <PlusIcon />
+                  </button>
+                )}
+              </div>
             </li>
           ))}
         </ul>
