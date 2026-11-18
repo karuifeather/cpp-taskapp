@@ -20,7 +20,7 @@ const STANDINGS = `
          id::int AS user_id, first_name, last_initial, total_points, completed_count
     FROM totals`;
 
-// GET /api/leaderboard?limit=10
+// GET /api/leaderboard?limit=10&offset=0
 router.get('/', requireLogin, async (req, res) => {
   let limit = 10;
   if (req.query.limit !== undefined) {
@@ -30,18 +30,29 @@ router.get('/', requireLogin, async (req, res) => {
     }
   }
 
-  const [top, me] = await Promise.all([
+  // offset skips that many players, used for paging
+  let offset = 0;
+  if (req.query.offset !== undefined) {
+    offset = Number(req.query.offset);
+    if (!Number.isInteger(offset) || offset < 0) {
+      return res.status(400).json({ error: 'offset must be a whole number of 0 or more' });
+    }
+  }
+
+  const [top, me, count] = await Promise.all([
     pool.query(
       `SELECT * FROM (${STANDINGS}) s
         WHERE total_points > 0
         ORDER BY rank, completed_count DESC, user_id
-        LIMIT $1`,
-      [limit],
+        LIMIT $1 OFFSET $2`,
+      [limit, offset],
     ),
     pool.query(`SELECT * FROM (${STANDINGS}) s WHERE user_id = $1`, [req.session.userId]),
+    // total players on the board, so the page knows how many pages there are
+    pool.query(`SELECT COUNT(*)::int AS total FROM (${STANDINGS}) s WHERE total_points > 0`),
   ]);
 
-  res.json({ leaderboard: top.rows, me: me.rows[0] ?? null });
+  res.json({ leaderboard: top.rows, me: me.rows[0] ?? null, total: count.rows[0].total });
 });
 
 export default router;

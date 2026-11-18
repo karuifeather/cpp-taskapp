@@ -1,10 +1,11 @@
 import { useParams } from 'react-router-dom';
 import PlannedPage from '../components/PlannedPage.jsx';
+import LeaderboardPage from './LeaderboardPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import SignupPage from './Signup.jsx';
 import TaskCatalogPage from './TaskCatalogPage.jsx';
 
-export { LoginPage, SignupPage };
+export { LeaderboardPage, LoginPage, SignupPage };
 
 export function MyTasksPage() {
   return (

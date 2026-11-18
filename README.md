@@ -164,9 +164,9 @@ The backend uses Express.js and exposes RESTful endpoints under `/api`. PostgreS
 
 ### Leaderboard
 
-| Method | Route              | Purpose                                                 |
-| ------ | ------------------ | ------------------------------------------------------- |
-| `GET`  | `/api/leaderboard` | Top users by total points, plus the current user's rank |
+| Method | Route              | Purpose                                                                                                             |
+| ------ | ------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `GET`  | `/api/leaderboard` | Top users by total points, plus the current user's rank (`?limit=` and `?offset=` for paging, `total` in the reply) |
 
 ### Database & Deployment
 
