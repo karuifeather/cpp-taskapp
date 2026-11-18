@@ -2,19 +2,11 @@ import { useParams } from 'react-router-dom';
 import PlannedPage from '../components/PlannedPage.jsx';
 import LeaderboardPage from './LeaderboardPage.jsx';
 import LoginPage from './LoginPage.jsx';
+import MyTasksPage from './MyTasksPage.jsx';
 import SignupPage from './Signup.jsx';
 import TaskCatalogPage from './TaskCatalogPage.jsx';
 
-export { LeaderboardPage, LoginPage, SignupPage };
-
-export function MyTasksPage() {
-  return (
-    <PlannedPage
-      title="My Tasks"
-      description="Personal task list and completion actions will go here."
-    />
-  );
-}
+export { LeaderboardPage, LoginPage, SignupPage, MyTasksPage };
 
 // /tasks and /tasks/:category both use the Task Catalog page.
 export { TaskCatalogPage as TasksPage, TaskCatalogPage as CategoryPage };

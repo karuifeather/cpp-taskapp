@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { addTask, getCategories, getPlannedTasks, getTasks, removeTask } from '../lib/catalog.js';
+import Notice from '../components/Notice.jsx';
 
 // Plaque colors come from the difficulty tokens in styles/theme.css.
 const difficultyFill = {
@@ -276,31 +277,30 @@ export default function TaskCatalogPage() {
 
         {/* Message after pressing Add or Remove. aria-live so screen readers hear it. */}
         <div aria-live="polite" className="text-center text-lg">
-          {notice?.type === 'added' && (
-            <p className="mb-3 rounded border border-line bg-brand-soft px-3 py-1">
-              Added "{notice.text}" to today.{' '}
-              <Link to="/" className={noticeLinkClass}>
-                View My Tasks
-              </Link>
-            </p>
-          )}
-          {notice?.type === 'removed' && (
-            <p className="mb-3 rounded border border-line bg-brand-soft px-3 py-1">
-              Removed "{notice.text}" from today.
-            </p>
-          )}
-          {notice?.type === 'login' && (
-            <p className="mb-3 rounded border border-line bg-brand-soft px-3 py-1">
-              Please log in to add quests to My Tasks.{' '}
-              <Link to="/login" className={noticeLinkClass}>
-                Log in
-              </Link>
-            </p>
-          )}
-          {notice?.type === 'error' && (
-            <p role="alert" className="mb-3 rounded border border-hard px-3 py-1 font-semibold">
-              Something went wrong: {notice.text}
-            </p>
+          {notice && (
+            <Notice
+              type={notice.type === 'error' ? 'error' : 'info'}
+              onClose={() => setNotice(null)}
+            >
+              {notice.type === 'added' && (
+                <>
+                  Added "{notice.text}" to today.{' '}
+                  <Link to="/" className={noticeLinkClass}>
+                    View My Tasks
+                  </Link>
+                </>
+              )}
+              {notice.type === 'removed' && <>Removed "{notice.text}" from today.</>}
+              {notice.type === 'login' && (
+                <>
+                  Please log in to add quests to My Tasks.{' '}
+                  <Link to="/login" className={noticeLinkClass}>
+                    Log in
+                  </Link>
+                </>
+              )}
+              {notice.type === 'error' && <>Something went wrong: {notice.text}</>}
+            </Notice>
           )}
         </div>
 

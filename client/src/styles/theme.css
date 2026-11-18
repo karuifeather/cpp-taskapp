@@ -21,6 +21,26 @@
   --color-medium: #94650a;
   --color-hard: #9b1c1c;
 
+  /* Category pills on the My Tasks page. Muted fill, darker text of the same color. */
+  --color-cat-homework: #c7a0c0;
+  --color-cat-homework-ink: #4b2448;
+  --color-cat-exam: #a6b5c0;
+  --color-cat-exam-ink: #1c3040;
+  --color-cat-chores: #b8bf8e;
+  --color-cat-chores-ink: #2c3a1c;
+  --color-cat-health: #dc9b8f;
+  --color-cat-health-ink: #5a1e18;
+  --color-cat-personal: #dcc184;
+  --color-cat-personal-ink: #3f2e0f;
+
+  /* Status pills on the My Tasks page */
+  --color-status-todo: #cdbea6;
+  --color-status-todo-ink: #5b4a3a;
+  --color-status-doing: #e8b273;
+  --color-status-doing-ink: #6a3a10;
+  --color-status-done: #b6c495;
+  --color-status-done-ink: #2e4a1e;
+
   --font-logo: 'UnifrakturMaguntia', Georgia, serif;
   --font-display: 'Cinzel Decorative', Georgia, serif;
   --font-body: 'Crimson Pro', Georgia, serif;
