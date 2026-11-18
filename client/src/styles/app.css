@@ -21,9 +21,20 @@
    * their real size and only stretches the middle, so any card size works.
    */
   .parchment {
+    position: relative;
+    isolation: isolate;
+    border: 40px solid transparent;
+    filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.5));
+  }
+
+  .parchment::before {
+    content: '';
+    position: absolute;
+    inset: -40px; /* grow outward to cover the border area */
     border: 40px solid transparent;
     border-image: url('../assets/parchment.webp') 70 fill / 40px stretch;
-    filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.5));
+    opacity: 0.87;
+    z-index: -1;
   }
 
   .title-shadow {
