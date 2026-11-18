@@ -11,7 +11,8 @@ export async function withDatabase(action) {
 
   const client = new pg.Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: true } : undefined,
+    ssl:
+      process.env.DATABASE_SSL?.toLowerCase() === 'true' ? { rejectUnauthorized: true } : undefined,
   });
 
   await client.connect();

@@ -28,7 +28,7 @@ export const env = {
   port: Number(process.env.PORT || 4000),
   clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
   databaseUrl: process.env.DATABASE_URL,
-  databaseSsl: process.env.DATABASE_SSL === 'true',
+  databaseSsl: process.env.DATABASE_SSL?.toLowerCase() === 'true',
   sessionSecret: process.env.SESSION_SECRET || 'dev-secret',
   // "Today" for planned dates is based on this timezone, not the server's.
   timezone,
