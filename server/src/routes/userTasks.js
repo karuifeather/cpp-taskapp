@@ -91,7 +91,7 @@ router.post('/', requireLogin, async (req, res) => {
     ));
   } catch (error) {
     if (isDuplicateDay(error)) {
-      return res.status(409).json({ error: 'Task is already added for that day' });
+      return res.status(409).json({ error: 'Task is already planned for that day' });
     }
     throw error;
   }
@@ -127,7 +127,7 @@ router.patch('/:userTaskId', requireLogin, async (req, res) => {
     ));
   } catch (error) {
     if (isDuplicateDay(error)) {
-      return res.status(409).json({ error: 'Task is already added for that day' });
+      return res.status(409).json({ error: 'Task is already planned for that day' });
     }
     throw error;
   }

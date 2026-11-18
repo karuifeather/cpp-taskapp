@@ -36,17 +36,24 @@ Sections marked ✅ are done. The rest describe the **planned initial release**.
 
 ![QuestMaster theme](planning/quest-master-theme.gif)
 
-### Accounts and profiles
+### ✅ Accounts
 
 - Sign up with a name, email address, and password.
 - Log in and log out securely.
+
+![Sign up, log in, and log out](planning/accounts.gif)
+
+### Profiles
+
 - View basic profile information, completed tasks, and total earned points.
 
-### Task catalog
+### ✅ Task catalog
 
 - Browse a predefined list of tasks maintained by the project team.
 - View each task's title, category, and difficulty.
 - Filter tasks by category.
+
+![Task catalog](planning/task-catalog.gif)
 
 ### Personal task list
 
