@@ -43,3 +43,12 @@ CREATE INDEX IF NOT EXISTS idx_user_tasks_task_id ON user_tasks (task_id);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_user_tasks_one_active_timer
   ON user_tasks (user_id)
   WHERE started_at IS NOT NULL AND completed_at IS NULL;
+
+-- Login sessions (used by connect-pg-simple) so users stay logged in across restarts.
+CREATE TABLE IF NOT EXISTS session (
+  sid VARCHAR NOT NULL PRIMARY KEY,
+  sess JSON NOT NULL,
+  expire TIMESTAMP(6) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_session_expire ON session (expire);
