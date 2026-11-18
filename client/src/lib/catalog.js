@@ -25,3 +25,9 @@ export async function addTask(taskId, plannedFor) {
 export async function removeTask(userTaskId) {
   await apiFetch(`/user-tasks/${userTaskId}`, { method: 'DELETE' });
 }
+
+// Returns the logged in user's planned (not started) tasks, any day.
+// Each item has id (the user task id) and task_id (the catalog task id).
+export async function getPlannedTasks() {
+  return (await apiFetch('/user-tasks?status=planned')).user_tasks;
+}

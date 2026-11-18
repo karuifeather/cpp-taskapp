@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-import { addTask, getCategories, getTasks, removeTask } from '../lib/catalog.js';
+import { addTask, getCategories, getPlannedTasks, getTasks, removeTask } from '../lib/catalog.js';
 
 // Plaque colors come from the difficulty tokens in styles/theme.css.
 const difficultyFill = {
@@ -135,6 +135,35 @@ export default function TaskCatalogPage() {
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
+
+  // When logged in, mark quests that are already planned in My Tasks, so they show
+  // the check after a page reload and can still be removed.
+  useEffect(() => {
+    if (!user) {
+      setAddState({});
+      setUserTaskIds({});
+      return;
+    }
+    let ignore = false;
+    getPlannedTasks()
+      .then((plannedTasks) => {
+        if (ignore) return;
+        const ids = {};
+        const states = {};
+        for (const userTask of plannedTasks) {
+          ids[userTask.task_id] = userTask.id;
+          states[userTask.task_id] = 'added';
+        }
+        setUserTaskIds(ids);
+        setAddState(states);
+      })
+      .catch(() => {
+        // If this fails the catalog still works; quests just show "+".
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [user]);
 
   // The level filter also lives in the URL (?level=easy) and works with the category.
   const level = LEVELS.includes(searchParams.get('level')) ? searchParams.get('level') : null;
