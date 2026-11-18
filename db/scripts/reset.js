@@ -19,7 +19,9 @@ if (isProduction || process.env.ALLOW_DB_RESET !== 'true') {
 await withDatabase(async (client) => {
   await client.query('BEGIN');
   try {
-    await client.query('DROP TABLE IF EXISTS user_tasks, tasks, categories, users CASCADE');
+    await client.query(
+      'DROP TABLE IF EXISTS session, user_tasks, tasks, categories, users CASCADE',
+    );
     await migrate(client);
     await seed(client);
     await client.query('COMMIT');
