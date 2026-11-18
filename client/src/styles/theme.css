@@ -16,6 +16,11 @@
   --color-bar: #6b4c3b;
   --color-bar-text: #1b120c;
 
+  /* Difficulty plaques on the Task Catalog page */
+  --color-easy: #2f6b2f;
+  --color-medium: #94650a;
+  --color-hard: #9b1c1c;
+
   --font-logo: 'UnifrakturMaguntia', Georgia, serif;
   --font-display: 'Cinzel Decorative', Georgia, serif;
   --font-body: 'Crimson Pro', Georgia, serif;
