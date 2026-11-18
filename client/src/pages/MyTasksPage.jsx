@@ -1,4 +1,35 @@
 import { useEffect, useState } from 'react';
+import {
+  Apple,
+  BedDouble,
+  BookHeart,
+  BookOpen,
+  Calculator,
+  CalendarCheck,
+  CalendarDays,
+  ClipboardList,
+  CookingPot,
+  Dumbbell,
+  FileCheck,
+  Footprints,
+  GlassWater,
+  Guitar,
+  Layers,
+  ListChecks,
+  ListTodo,
+  MonitorOff,
+  Moon,
+  NotebookPen,
+  NotebookText,
+  PenLine,
+  PersonStanding,
+  Phone,
+  Shirt,
+  Sparkles,
+  Users,
+  Utensils,
+  WashingMachine,
+} from 'lucide-react';
 import { Link, Navigate } from 'react-router-dom';
 import Notice from '../components/Notice.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -13,6 +44,78 @@ const categoryFill = {
   Health: 'bg-cat-health/70 text-cat-health-ink',
   Personal: 'bg-cat-personal/70 text-cat-personal-ink',
 };
+
+// Hand drawn icon for each category (24x24 paths), used in the pill.
+const categoryIcons = {
+  // open book
+  Homework: 'M3 5c3-1 6-.6 8 1v14c-2-1.4-5-1.8-8-.8zm18 0c-3-1-6-.6-8 1v14c2-1.4 5-1.8 8-.8z',
+  // graduation cap
+  'Exam Review': 'M12 3 1 9l11 6 9-4.9V17h2V9zM5 13.2v4L12 21l7-3.8v-4L12 17z',
+  // house
+  Chores: 'M12 3 2 12h3v8h5v-5h4v5h5v-8h3z',
+  // heart
+  Health:
+    'M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.2 5 6.7 5c2 0 3.5 1.1 4.3 2.5h2C13.8 6.1 15.3 5 17.3 5c3.5 0 5.5 3.6 4.2 6.8C19.5 16.4 12 21 12 21z',
+  // person
+  Personal:
+    'M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z',
+};
+
+// Icon for each quest in the seed list, matched by title.
+// A quest that isn't here (like a new one) uses its hand drawn category icon.
+const questIcons = {
+  'Read for 20 minutes': BookOpen,
+  'Finish two assignments': ListChecks,
+  'Finish one assignment': FileCheck,
+  'Do 10 math problems': Calculator,
+  'Write one page of an essay': PenLine,
+  'Check what homework is due this week': CalendarCheck,
+  'Make flashcards for one topic': Layers,
+  'Review class notes for 30 minutes': NotebookText,
+  'Do one practice test': ClipboardList,
+  'Study with a friend': Users,
+  'Make a study plan for the next exam': CalendarDays,
+  'Do your laundry': WashingMachine,
+  'Fold your clothes': Shirt,
+  'Clean your room': Sparkles,
+  'Make your bed': BedDouble,
+  'Wash the dishes': Utensils,
+  'Cook dinner': CookingPot,
+  'Drink two glasses of water': GlassWater,
+  'Go for a 20 minute walk': Footprints,
+  'Do a 30 minute workout': Dumbbell,
+  'Stretch for 10 minutes': PersonStanding,
+  'Eat a fruit or vegetable': Apple,
+  'Go to bed before 11 pm': Moon,
+  'Read a book for fun': BookHeart,
+  'Practice a hobby or instrument': Guitar,
+  'Write in a journal': NotebookPen,
+  'Call or text a family member': Phone,
+  'Plan tomorrow': ListTodo,
+  'Have screen free time for 1 hour': MonitorOff,
+};
+
+function CategoryIcon({ category, className }) {
+  const path = categoryIcons[category];
+  if (!path) return null;
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={`shrink-0 ${className}`}
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d={path} />
+    </svg>
+  );
+}
+
+// Lucide icon for the quest, or the category icon if the quest isn't in the list.
+function QuestIcon({ task, className }) {
+  const Icon = questIcons[task.title];
+  if (!Icon) return <CategoryIcon category={task.category} className={className} />;
+  return <Icon className={`shrink-0 ${className}`} aria-hidden="true" />;
+}
 
 // Local YYYY-MM-DD, so "today" matches the user's own calendar.
 function dateKey(date) {
@@ -477,19 +580,23 @@ export default function MyTasksPage() {
                     className={`relative isolate flex flex-wrap items-center gap-x-3 gap-y-2 px-3 py-2 xl:grid ${rowColumns}`}
                   >
                     <NotchedFrame thin colorClass="text-muted/70" />
-                    <div className="w-full min-w-0 xl:w-auto">
-                      <p className="text-xl font-semibold break-words">{userTask.task.title}</p>
-                      {userTask.status === 'planned' && userTask.planned_for < today && (
-                        <p className="text-base text-muted">
-                          From {shortDate(userTask.planned_for)}
-                        </p>
-                      )}
+                    <div className="flex w-full min-w-0 items-center gap-3 xl:w-auto">
+                      <QuestIcon task={userTask.task} className="h-8 w-8 text-brand" />
+                      <div className="min-w-0">
+                        <p className="text-xl font-semibold break-words">{userTask.task.title}</p>
+                        {userTask.status === 'planned' && userTask.planned_for < today && (
+                          <p className="text-base text-muted">
+                            From {shortDate(userTask.planned_for)}
+                          </p>
+                        )}
+                      </div>
                     </div>
                     <span
                       className={`${pillClass} ${categoryWidth} ${
                         categoryFill[userTask.task.category] || 'bg-brand-soft'
                       }`}
                     >
+                      <CategoryIcon category={userTask.task.category} className="h-4 w-4" />
                       {userTask.task.category}
                     </span>
                     <span className="flex">
