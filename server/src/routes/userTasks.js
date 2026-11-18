@@ -57,6 +57,9 @@ router.get('/:userTaskId', requireLogin, async (req, res) => {
   res.json({ user_task: userTask });
 });
 
+const isDuplicateDay = (error) =>
+  error.code === '23505' && error.constraint === 'idx_user_tasks_one_per_day';
+
 // POST /api/user-tasks  body: { taskId, plannedFor? }
 router.post('/', requireLogin, async (req, res) => {
   const body = req.body || {};
@@ -78,12 +81,20 @@ router.post('/', requireLogin, async (req, res) => {
   }
 
   // Inserts nothing when the catalog task does not exist.
-  const { rows } = await pool.query(
-    `INSERT INTO user_tasks (user_id, task_id, planned_for)
-     SELECT $1, t.id, COALESCE($3::date, CURRENT_DATE) FROM tasks t WHERE t.id = $2
-     RETURNING id::int AS id`,
-    [req.session.userId, taskId, plannedFor ?? null],
-  );
+  let rows;
+  try {
+    ({ rows } = await pool.query(
+      `INSERT INTO user_tasks (user_id, task_id, planned_for)
+       SELECT $1, t.id, COALESCE($3::date, CURRENT_DATE) FROM tasks t WHERE t.id = $2
+       RETURNING id::int AS id`,
+      [req.session.userId, taskId, plannedFor ?? null],
+    ));
+  } catch (error) {
+    if (isDuplicateDay(error)) {
+      return res.status(409).json({ error: 'Task is already added for that day' });
+    }
+    throw error;
+  }
   if (!rows[0]) return res.status(404).json({ error: 'Task not found' });
 
   const userTask = await findUserTask(rows[0].id, req.session.userId);
@@ -107,11 +118,19 @@ router.patch('/:userTaskId', requireLogin, async (req, res) => {
     return res.status(400).json({ error: 'plannedFor cannot be in the past' });
   }
 
-  const { rowCount } = await pool.query(
-    `UPDATE user_tasks SET planned_for = $3::date
-     WHERE id = $1 AND user_id = $2 AND started_at IS NULL`,
-    [userTaskId, req.session.userId, plannedFor],
-  );
+  let rowCount;
+  try {
+    ({ rowCount } = await pool.query(
+      `UPDATE user_tasks SET planned_for = $3::date
+       WHERE id = $1 AND user_id = $2 AND started_at IS NULL`,
+      [userTaskId, req.session.userId, plannedFor],
+    ));
+  } catch (error) {
+    if (isDuplicateDay(error)) {
+      return res.status(409).json({ error: 'Task is already added for that day' });
+    }
+    throw error;
+  }
 
   const userTask = await findUserTask(userTaskId, req.session.userId);
   if (!userTask) return res.status(404).json({ error: 'User task not found' });
