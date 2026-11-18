@@ -35,7 +35,7 @@ Edit the root `.env` as needed:
 - `CLIENT_ORIGIN` should match the frontend URL when using cross-origin API calls.
 - `SESSION_SECRET` signs login cookies. Any value works locally; it is required in production.
 - `APP_TIMEZONE` sets what "today" means for planned tasks (default `America/Chicago`).
-- `ALLOW_DB_RESET=true` opts into the destructive database reset command. Keep
+- `ALLOW_DB_RESET=true` opts into the destructive database reset command (off by default). Keep
   this enabled only for disposable local development databases.
 
 Do not commit `.env` or real credentials. Commit only safe examples in `.env.example`.
