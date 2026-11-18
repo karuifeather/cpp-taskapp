@@ -33,6 +33,8 @@ Edit the root `.env` as needed:
   the database provider.
 - `PORT` sets the backend port (default `4000`).
 - `CLIENT_ORIGIN` should match the frontend URL when using cross-origin API calls.
+- `SESSION_SECRET` signs login cookies. Any value works locally; it is required in production.
+- `APP_TIMEZONE` sets what "today" means for planned tasks (default `America/Chicago`).
 - `ALLOW_DB_RESET=true` opts into the destructive database reset command. Keep
   this enabled only for disposable local development databases.
 
@@ -64,6 +66,8 @@ npm run db:seed
 ```
 
 `npm run db:reset` deletes data. It is intended for disposable local development databases only and requires `ALLOW_DB_RESET=true`.
+
+**Already set up before?** After pulling, run `npm install` and `npm run db:migrate` again. Migrate is safe to rerun and adds any new tables (like `session`, which stores logins).
 
 ### Start the application
 
@@ -122,7 +126,7 @@ npm run format
 npm run format:check
 ```
 
-The frontend build and Express backend are separate; a deployment must host the built client and route API requests to the server. `npm run start` launches the API, not the React frontend.
+With `NODE_ENV=production`, Express also serves the built client from `client/dist/`, so one service runs the whole app. Run `npm run build` before `npm run start`. In production, login cookies only work over HTTPS.
 
 Prettier configuration lives at the root in `.prettierrc.json`. Husky and lint-staged format supported staged files during commits. The Tailwind color tokens live in `client/src/styles/theme.css`; change the palette there rather than hardcoding colors across components.
 
