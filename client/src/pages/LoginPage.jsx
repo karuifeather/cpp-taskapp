@@ -1,11 +1,12 @@
-
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiFetch } from '../lib/api.js';
+import { useAuth } from '../context/AuthContext.jsx';
 import './LoginPage.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +19,7 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      await apiFetch('/auth/login', {
+      const data = await apiFetch('/auth/login', {
         method: 'POST',
         body: JSON.stringify({
           email: email.trim(),
@@ -26,6 +27,7 @@ export default function LoginPage() {
         }),
       });
 
+      setUser(data.user);
       navigate('/');
     } catch (err) {
       setError(err.message || 'Unable to log in. Please try again.');
@@ -41,9 +43,7 @@ export default function LoginPage() {
 
         <h1 className="login-title">Log In</h1>
 
-        <p className="login-description">
-          Your next quest awaits.
-        </p>
+        <p className="login-description">Your next quest awaits.</p>
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="login-field">
@@ -78,11 +78,7 @@ export default function LoginPage() {
             </p>
           )}
 
-          <button
-            type="submit"
-            className="login-button"
-            disabled={isSubmitting}
-          >
+          <button type="submit" className="login-button" disabled={isSubmitting}>
             {isSubmitting ? 'Entering...' : 'Begin Your Quest'}
           </button>
         </form>
@@ -92,8 +88,7 @@ export default function LoginPage() {
         </div>
 
         <p className="login-signup">
-          New to QuestMaster?{' '}
-          <Link to="/signup">Create an Account</Link>
+          New to QuestMaster? <Link to="/signup">Create an Account</Link>
         </p>
       </div>
     </section>
