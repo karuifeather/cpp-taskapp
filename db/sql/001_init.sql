@@ -39,9 +39,13 @@ CREATE TABLE IF NOT EXISTS user_tasks (
 CREATE INDEX IF NOT EXISTS idx_user_tasks_user_date ON user_tasks (user_id, planned_for);
 CREATE INDEX IF NOT EXISTS idx_user_tasks_task_id ON user_tasks (task_id);
 
--- A user can add a catalog task only once per day.
-CREATE UNIQUE INDEX IF NOT EXISTS idx_user_tasks_one_per_day
-  ON user_tasks (user_id, task_id, planned_for);
+-- A user can plan a catalog task only once per day while it has not started.
+-- Started or finished copies do not count, so a quest can be repeated.
+-- The drop replaces the older index that covered every row.
+DROP INDEX IF EXISTS idx_user_tasks_one_per_day;
+CREATE UNIQUE INDEX idx_user_tasks_one_per_day
+  ON user_tasks (user_id, task_id, planned_for)
+  WHERE started_at IS NULL;
 
 -- PostgreSQL also enforces no more than one active task per user.
 CREATE UNIQUE INDEX IF NOT EXISTS idx_user_tasks_one_active_timer
