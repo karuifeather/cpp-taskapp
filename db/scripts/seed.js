@@ -8,7 +8,7 @@ export async function seed(client) {
 
 if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
   withDatabase(seed)
-    .then(() => console.log('Categories and tasks are seeded.'))
+    .then(() => console.log('Categories, tasks, and demo users are seeded.'))
     .catch((error) => {
       console.error(error);
       process.exitCode = 1;
