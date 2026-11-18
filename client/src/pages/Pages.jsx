@@ -5,8 +5,9 @@ import LoginPage from './LoginPage.jsx';
 import MyTasksPage from './MyTasksPage.jsx';
 import SignupPage from './Signup.jsx';
 import TaskCatalogPage from './TaskCatalogPage.jsx';
+import ProfilePage from './ProfilePage.jsx';
 
-export { LeaderboardPage, LoginPage, SignupPage, MyTasksPage };
+export { LeaderboardPage, LoginPage, SignupPage, MyTasksPage, ProfilePage };
 
 // /tasks and /tasks/:category both use the Task Catalog page.
 export { TaskCatalogPage as TasksPage, TaskCatalogPage as CategoryPage };
@@ -18,12 +19,6 @@ export function TimerPage() {
       title={`Timer for task #${userTaskId}`}
       description="The frontend will display elapsed time from the backend's saved started_at timestamp."
     />
-  );
-}
-
-export function ProfilePage() {
-  return (
-    <PlannedPage title="Profile" description="Account details and accumulated points go here." />
   );
 }
 
