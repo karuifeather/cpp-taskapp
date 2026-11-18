@@ -1,11 +1,11 @@
 // Task catalog data for the Task Catalog page.
 //
-// The catalog API (GET /api/categories and GET /api/tasks, issue #22) is not
-// built yet, so these functions return sample data that matches
-// db/sql/002_seed.sql. When #22 is merged, swap the bodies for:
-//   getCategories: return apiFetch('/categories');
-//   getTasks:      return apiFetch('/tasks');
-// The page itself does not need to change.
+// The catalog API (issue #22) is not built yet, so these return sample data
+// from db/sql/002_seed.sql. When #22 is merged, swap the bodies for:
+//   getCategories: return (await apiFetch('/categories')).categories;
+//   getTasks:      return (await apiFetch('/tasks')).tasks;
+// Real ids come from the database and will not match the sample ids,
+// so use the real id when adding a task to My Tasks.
 
 const SAMPLE_TASKS = [
   ['Homework', 'Read for 20 minutes', 'medium'],
