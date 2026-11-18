@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import PlannedPage from '../components/PlannedPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import SignupPage from './Signup.jsx';
+import TaskCatalogPage from './TaskCatalogPage.jsx';
 
 export { LoginPage, SignupPage };
 
@@ -14,16 +15,8 @@ export function MyTasksPage() {
   );
 }
 
-export function TasksPage() {
-  return (
-    <PlannedPage title="Task Catalog" description="Browse and filter predefined tasks here." />
-  );
-}
-
-export function CategoryPage() {
-  const { category } = useParams();
-  return <PlannedPage title={`Category: ${category}`} description="Filtered catalog goes here." />;
-}
+// /tasks and /tasks/:category both use the Task Catalog page.
+export { TaskCatalogPage as TasksPage, TaskCatalogPage as CategoryPage };
 
 export function TimerPage() {
   const { userTaskId } = useParams();
