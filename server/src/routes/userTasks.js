@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { notImplemented } from './notImplemented.js';
 import { pool } from '../db/pool.js';
 import {
   USER_TASK_SELECT,
@@ -12,11 +11,11 @@ import {
   serializeUserTask,
 } from '../db/userTasks.js';
 import { requireLogin } from './auth.js';
+import { startTimer, stopTimer } from '../controllers/timers.js';
 
 const router = Router();
 
 // Only work with user tasks belonging to the authenticated user.
-// Add in authentication middleware when ready. For now, this is a placeholder to claim the endpoints.
 // GET /api/user-tasks?date=YYYY-MM-DD&status=planned|in_progress|completed
 router.get('/', requireLogin, async (req, res) => {
   const { date, status } = req.query;
@@ -139,7 +138,7 @@ router.delete('/:userTaskId', requireLogin, async (req, res) => {
 });
 
 // Reminder again: The backend will compute points.
-router.patch('/:userTaskId/start', notImplemented('Starting a task timer'));
-router.patch('/:userTaskId/stop', notImplemented('Stopping a timer and awarding points'));
+router.patch('/:userTaskId/start', requireLogin, startTimer);
+router.patch('/:userTaskId/stop', requireLogin, stopTimer);
 
 export default router;
