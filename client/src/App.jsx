@@ -4,6 +4,7 @@ import PageShell from './components/PageShell.jsx';
 import { APP_NAME } from './config/app.js';
 import {
   CategoryPage,
+  LeaderboardPage,
   LoginPage,
   MyTasksPage,
   NotFoundPage,
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/tasks" element={<TasksPage />} />
         <Route path="/tasks/:category" element={<CategoryPage />} />
         <Route path="/timer/:userTaskId" element={<TimerPage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

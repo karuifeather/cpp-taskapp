@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 const loggedInLinks = [
   { to: '/', label: 'My Tasks', end: true },
   { to: '/tasks', label: 'Task Catalog' },
+  { to: '/leaderboard', label: 'Leaderboard' },
   { to: '/profile', label: 'Profile' },
 ];
 
@@ -32,10 +33,7 @@ export default function PageShell({ children }) {
     <div className="min-h-screen">
       <header className="bg-bar shadow-lg">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6">
-          <Link
-            to={user ? '/' : '/login'}
-            className="font-logo text-3xl text-bar-text sm:text-5xl"
-          >
+          <Link to={user ? '/' : '/login'} className="font-logo text-3xl text-bar-text sm:text-5xl">
             {APP_NAME}
           </Link>
           <nav aria-label="Primary navigation" className="flex flex-wrap gap-x-6 gap-y-2">

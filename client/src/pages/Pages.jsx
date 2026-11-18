@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
 import PlannedPage from '../components/PlannedPage.jsx';
+import LeaderboardPage from './LeaderboardPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import MyTasksPage from './MyTasksPage.jsx';
 import SignupPage from './Signup.jsx';
 import TaskCatalogPage from './TaskCatalogPage.jsx';
 
-export { LoginPage, MyTasksPage, SignupPage };
+export { LeaderboardPage, LoginPage, SignupPage, MyTasksPage };
 
 // /tasks and /tasks/:category both use the Task Catalog page.
 export { TaskCatalogPage as TasksPage, TaskCatalogPage as CategoryPage };
