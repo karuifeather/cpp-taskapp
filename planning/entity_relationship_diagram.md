@@ -1,6 +1,6 @@
 # Entity Relationship Diagram
 
-The initial release uses four PostgreSQL tables. `user_tasks` connects users with predefined tasks and records individual scheduled task instances, timer state, and points.
+The app uses four main PostgreSQL tables, plus a `session` table for logins. `user_tasks` connects users with predefined tasks and records individual scheduled task instances, timer state, and points.
 
 ```mermaid
 erDiagram
@@ -37,12 +37,18 @@ erDiagram
         timestamptz completed_at
         integer points_earned
     }
+    session {
+        varchar sid PK
+        json sess
+        timestamp expire
+    }
 ```
 
 ## Relationship Summary
 
 - **One-to-many:** One category contains many tasks.
 - **Many-to-many:** One user can select many tasks; one catalog task can be selected by many users. The relationship is represented through `user_tasks`.
+- **Sessions:** `session` stores login sessions so users stay logged in after a server restart. It has no foreign key; the logged-in user's id is saved inside `sess`.
 - **History:** Each row in `user_tasks` represents a user's selected task for a date. A user can select the same catalog task again on another date.
 
 ## Timer and Points Constraints

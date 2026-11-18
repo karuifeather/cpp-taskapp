@@ -89,7 +89,7 @@ The initial release will not include user-created catalog tasks, pause/resume ti
 
 ## Data Model
 
-The app uses four main tables:
+The app uses these tables:
 
 | Table        | Purpose                                                                       |
 | ------------ | ----------------------------------------------------------------------------- |
@@ -97,6 +97,7 @@ The app uses four main tables:
 | `categories` | Groups for organizing catalog tasks                                           |
 | `tasks`      | Predefined tasks, each belonging to a category                                |
 | `user_tasks` | A user's selected tasks, scheduled dates, timer timestamps, and earned points |
+| `session`    | Login sessions, so users stay logged in after a server restart                |
 
 A category has many tasks. Users and tasks have a many-to-many relationship through `user_tasks`, which also stores each selected task's progress. The same catalog task can be selected on different days.
 
