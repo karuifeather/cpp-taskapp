@@ -65,6 +65,8 @@ npm run db:migrate
 npm run db:seed
 ```
 
+The seed also adds 40 demo users with finished quests. To look around as one, log in as `alex@questmaster.test` with the password `questmaster123`.
+
 `npm run db:reset` deletes data. It is intended for disposable local development databases only and requires `ALLOW_DB_RESET=true`.
 
 **Already set up before?** After pulling, run `npm install` and `npm run db:migrate` again. Migrate is safe to rerun and adds any new tables (like `session`, which stores logins).

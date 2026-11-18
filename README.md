@@ -172,11 +172,11 @@ The backend uses Express.js and exposes RESTful endpoints under `/api`. PostgreS
 
 The project will include these development commands:
 
-| Command              | Purpose                                   |
-| -------------------- | ----------------------------------------- |
-| `npm run db:migrate` | Initialize or update the database schema  |
-| `npm run db:seed`    | Populate categories and predefined tasks  |
-| `npm run db:reset`   | Reset and reseed the development database |
+| Command              | Purpose                                               |
+| -------------------- | ----------------------------------------------------- |
+| `npm run db:migrate` | Initialize or update the database schema              |
+| `npm run db:seed`    | Populate categories, predefined tasks, and demo users |
+| `npm run db:reset`   | Reset and reseed the development database             |
 
 ### API Conventions
 
