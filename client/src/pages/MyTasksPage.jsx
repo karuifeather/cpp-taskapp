@@ -31,6 +31,7 @@ import {
   WashingMachine,
 } from 'lucide-react';
 import { Link, Navigate } from 'react-router-dom';
+import ConfirmModal from '../components/ConfirmModal.jsx';
 import Notice from '../components/Notice.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { removeTask } from '../lib/catalog.js';
@@ -357,6 +358,8 @@ export default function MyTasksPage() {
   // Message above the list: { type: 'done' | 'error', text, points? }
   const [notice, setNotice] = useState(null);
   const [now, setNow] = useState(() => new Date());
+  // Quest waiting for the user to confirm removal (null = popup closed).
+  const [toRemove, setToRemove] = useState(null);
 
   useEffect(() => {
     if (!user) return;
@@ -421,6 +424,12 @@ export default function MyTasksPage() {
       setUserTasks((prev) => prev.filter((item) => item.id !== userTask.id));
     });
 
+  // Called by the popup's Remove button. Closes the popup when done, even on error.
+  async function confirmRemove() {
+    await handleRemove(toRemove);
+    setToRemove(null);
+  }
+
   const today = dateKey(now);
   const quests = getTodaysQuests(userTasks, today);
   const scores = getScores(userTasks, now);
@@ -463,7 +472,7 @@ export default function MyTasksPage() {
       <button
         type="button"
         className="grid h-7 w-7 place-items-center rounded-full border border-line text-muted hover:bg-line hover:text-ink disabled:opacity-50"
-        onClick={() => handleRemove(userTask)}
+        onClick={() => setToRemove(userTask)}
         disabled={busy}
         aria-label={`Remove ${userTask.task.title}`}
         title="Remove"
@@ -620,6 +629,22 @@ export default function MyTasksPage() {
           </p>
         )}
       </section>
+
+      <ConfirmModal
+        open={toRemove !== null}
+        title="Remove quest?"
+        confirmLabel="Remove"
+        busy={toRemove !== null && busyId === toRemove.id}
+        onConfirm={confirmRemove}
+        onCancel={() => setToRemove(null)}
+      >
+        {toRemove && (
+          <p>
+            Take <strong>{toRemove.task.title}</strong> off your list? You can add it again from the
+            catalog.
+          </p>
+        )}
+      </ConfirmModal>
     </div>
   );
 }
