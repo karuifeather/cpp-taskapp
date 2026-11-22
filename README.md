@@ -4,8 +4,9 @@ A full-stack task management app that helps users organize everyday activities, 
 
 **Designed and Developed by:** Suwaiba Mahammad, Aashaya Aryal, Iman Zahid
 
-> **Status:** Planning and initial development
-> **Name:** `cpp-taskapp` is the internal project name; the public-facing name is going to be "QuestMaster"
+> **Live app:** https://questmaster-tonm.onrender.com
+> **Status:** Deployed on Render (free tier, so the first load can take about a minute)
+> **Name:** `cpp-taskapp` is the internal project name; the public-facing name is "QuestMaster"
 
 ## About
 
@@ -27,7 +28,7 @@ The app focuses on three things:
 
 ## Features
 
-Sections marked ✅ are done. The rest describe the **planned initial release**.
+Sections marked ✅ are done.
 
 ### ✅ QuestMaster theme
 
@@ -43,9 +44,12 @@ Sections marked ✅ are done. The rest describe the **planned initial release**.
 
 ![Sign up, log in, and log out](planning/accounts.gif)
 
-### Profiles
+### ✅ Profiles
 
-- View basic profile information, completed tasks, and total earned points.
+- View your name, email, total points, and today's points.
+- Edit your first and last name.
+
+![Profile page](planning/profile.gif)
 
 ### ✅ Task catalog
 
@@ -55,26 +59,42 @@ Sections marked ✅ are done. The rest describe the **planned initial release**.
 
 ![Task catalog](planning/task-catalog.gif)
 
-### Personal task list
+### ✅ Personal task list (My Tasks)
 
-- Add catalog tasks to a personal list for a chosen day (today by default).
-- View planned, in-progress, and completed tasks.
-- Reschedule or remove a task that has not been started.
+- Add catalog tasks to your list for today.
+- View planned, in-progress, and finished quests.
+- Remove a quest that has not been started.
 
-### Task timer
+![My Tasks](planning/my-tasks.gif)
 
-- Start a timer for a selected task and stop it upon completion.
-- Save start and completion times to the database.
-- Keep at most one timer running per user.
-- Restore the elapsed-time display from the saved start time if the page is refreshed.
+### ✅ Task timer
 
-### Points and progress
+- Start a timer on a quest and stop it when you finish.
+- Start and finish times are saved in the database.
+- Only one timer can run at a time. Other Start buttons are turned off while one runs.
+- The elapsed time comes back after a page refresh, because it is based on the saved start time.
 
-- Earn **1 point per full minute** when a timer is stopped, up to **120 points per completed task**.
-- Calculate a user's total points from completed task records.
-- Preserve completed-task history for the profile view.
+![Task timer](planning/task-timer.gif)
 
-The initial release will not include user-created catalog tasks, pause/resume timers, reminders, artwork, leaderboards, or social features.
+### ✅ Points and progress
+
+- Earn **1 point per full minute** when a timer is stopped, up to **120 points per finished quest**.
+- Today's, this week's, and total points are shown on My Tasks and the profile.
+
+![Points](planning/points.gif)
+
+### ✅ Leaderboard
+
+- See the top players by total points, with paging.
+- Your own rank is highlighted.
+
+![Leaderboard](planning/leaderboard.gif)
+
+### Not built yet
+
+- A separate Timer page at `/timer/:userTaskId` (it is a placeholder for now).
+- Pause and resume timers ([#49](https://github.com/karuifeather/cpp-taskapp/issues/49)).
+- Rescheduling from the UI (the API supports it with `PATCH /api/user-tasks/:userTaskId`).
 
 ## How It Works
 
@@ -92,7 +112,7 @@ The initial release will not include user-created catalog tasks, pause/resume ti
 | Backend        | Node.js, Express                                                  |
 | Database       | PostgreSQL                                                        |
 | Authentication | Email/password, hashed passwords, HTTP-only authentication cookie |
-| Deployment     | Render (planned)                                                  |
+| Deployment     | Render ([live app](https://questmaster-tonm.onrender.com))        |
 
 ## Data Model
 
@@ -189,9 +209,9 @@ The project will include these development commands:
 
 ## Planning Documents
 
-- [User Stories](planning/user_stories.md) — the main user journeys and expected behavior.
-- [Wireframes](planning/wireframes.md) — planned screens and interface designs.
-- [Entity Relationship Diagram](planning/entity_relationship_diagram.md) — database entities and relationships.
+- [User Stories](planning/user_stories.md): the main user journeys and expected behavior.
+- [Wireframes](planning/wireframes.md): planned screens and interface designs.
+- [Entity Relationship Diagram](planning/entity_relationship_diagram.md): database entities and relationships.
 
 ## Development
 
